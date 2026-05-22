@@ -1,28 +1,33 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Favorites</title>
-    <script src="
-https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4
-"></script>
-    <style type="text/tailwindcss"></style>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <h1>Movie Diary</h1>
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Favorites</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <!-- Favorites cards list -->
-    </main>
-    <footer></footer>
-    <script src="./journal.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Favorites</title>
+  <script src="
+https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss"></style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <h1>Movie Diary</h1>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Favorites</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="bg-gray-100 min-h-screen">
+    <div id="=movies-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grp-6 p-6">
+
+    </div>
+    <!-- Favorites cards list -->
+  </main>
+  <footer></footer>
+<script src="./journal.js"></script>
+</body>
+
 </html>
