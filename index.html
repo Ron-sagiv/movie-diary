@@ -9,7 +9,7 @@ https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4
 "></script>
     <style type="text/tailwindcss"></style>
   </head>
-  <body>
+  <body class="bg-[rgba(0,0,0,0.94)] box-border m-0 p-0 font-['Inter'] bg-black text-white">
     <header>
       <nav>
         <h1>Movie Diary</h1>
@@ -22,11 +22,11 @@ https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4
     <main>
       <!-- <section><h1>Search bar</h1>
       </section> -->
-      <section id="search-form" class="bg-black w-full flex items-center justify-center">
-        <div class="flex flex-col gap-4 items-center justify-center bg-slate-200/70 w-3/4 m-5 p-4 rounded-xl">
+      <section id="search-form" class="w-full flex items-center justify-center font-sans mt-12 p">
+        <div class="flex flex-col gap-4 items-center justify-center bg-slate-200/70 w-3/4 m-5 rounded-xl pb-8">
           <img id="logo-search-form" class="mt-4" src="./src/assets/logo-smaller-cropped.png">
           <hr class="border-1 mt-4 w-[50%] border-white" />
-          <h2 class="font-semibold text-xl"> Search for a <span class="text-[#ffa723] text-2xl font-bold">Movie</span> Title</h2>
+          <h2 class="font-semibold text-xl"> Search for a <span class="text-[#EF8A17] text-2xl font-bold">Movie</span> Title</h2>
           <div class="w-1/3">
           <form method="get" class="" >
             <input 
@@ -36,7 +36,7 @@ https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4
             class="bg-gray-700/50 border-none rounded-full p-2 w-full pl-4"
             >
             <div class="mt-4">
-            <button type="submit" id="getMovieBtn" class="bg-[#e8a23a] rounded-full font-semibold w-full p-2 hover:bg-white hover:cursor-pointer">
+            <button type="submit" id="getMovieBtn" class="bg-[#EF8A17] rounded-full font-semibold w-full p-2 hover:bg-white  hover:text-black  hover:cursor-pointer">
               Search
             </button>
             <dialog id="searchDialog" class="m-auto rounded-xl border-none p-0 backdrop:bg-black/60">
@@ -46,7 +46,7 @@ https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4
                   <!-- Dynamic HTML result goes here -->
                   <p> Sorry, we couldn't find any movie with that name!</p>
                 </div>
-                <button id="closeDialogBtn" class="border-1 border-black p-1 w-fit rounded-xl hover:shadow-xl active:text-[#ffa723]">Close</button>
+                <button id="closeDialogBtn" class="border-1 border-black p-1 w-fit rounded-xl hover:shadow-xl active:text-[#EF8A17]">Close</button>
               </div> 
             </dialog>
             </div>
