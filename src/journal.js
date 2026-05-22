@@ -20,3 +20,22 @@ function createMovieCard(movie) {
     `;
     return card;
 }
+function displayJournalMovies() {
+    const grid = document.getElementById('movies-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    const favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+    if (favoriteMovies.length === 0) {
+        grid.innerHTML = `
+        <div class="col-span-full text-center py-12">
+        <p class="text-gray-400 text-lg"> Your journal is empty. Please go back to home to add your favorite movies!</p>
+        </div>
+        `;
+        return;
+    }
+    favoriteMovies.forEach(movie => {
+        const movieCard = createMovieCard(movie);
+        grid.appendChild(movieCard);
+    });
+}
+document.addEventListener('DOMContentLoaded', displayJournalMovies);
