@@ -1,3 +1,4 @@
+let currentSearchResults = [];
 // 1. Configuration Settings
 const API_KEY = '1843d373b23cb78c0bf4bcd1cabe152f'; 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
@@ -21,6 +22,7 @@ async function searchMovies(query) {
         }
         
         const data = await response.json();
+        currentSearchResults = data.results;
         
         // Always reset the layout container before rendering new search queries
         moviesGrid.innerHTML = '';
@@ -62,38 +64,54 @@ function createMovieCard(movie) {
             <h3 class="text-lg font-bold text-gray-800 line-clamp-1 mb-1">${movie.title}</h3>
             <p class="text-sm text-gray-500 mb-2">${releaseYear}</p>
             <p class="text-sm text-gray-600 line-clamp-3 mb-4">${movie.overview || 'No overview descriptive data provided by TMDB.'}</p>
-            <button class="btn-add mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black font-bold py-2 px-4 rounded transition-colors duration-150 text-sm">
-                Add to Journal
-            </button>
+          <button class="btn-add mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black font-bold py-2 px-4 rounded transition-colors duration-150 text-sm" data-id="${movie.id}">
+    Add to Journal
+</button>
         </div>
     `;
 
-    // LocalStorage State Modification Handler
-    card.querySelector('.btn-add').addEventListener('click', () => {
-        let favorites = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
-        
-        // Prevent writing duplicate primary records into local storage arrays
-        if (!favorites.some(fav => fav.id === movie.id)) {
-            favorites.push(movie);
-            localStorage.setItem('favoriteMovies', JSON.stringify(favorites));
-            alert(`"${movie.title}" successfully committed to your Journal storage!`);
-        } else {
-            alert(`"${movie.title}" already resides within your existing Journal records.`);
-        }
-    });
+   
 
     return card;
 }
 
 // 3. Global Interactive Event Listeners
+
+// Search button listener
 searchButton.addEventListener('click', () => {
     const query = searchInput.value.trim();
     if (query !== '') searchMovies(query);
 });
 
+// Search input (Enter key) listener
 searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         const query = searchInput.value.trim();
         if (query !== '') searchMovies(query);
+    }
+});
+
+// GLOBAL Event Listener for the "Add to Journal" buttons
+document.addEventListener('click', (event) => {
+    // Check if the clicked element has the 'btn-add' class
+    if (event.target.classList.contains('btn-add')) {
+        // Get the ID we stored in the button
+        const movieId = parseInt(event.target.getAttribute('data-id'));
+        
+        // Find the movie in our search results list
+        const movie = currentSearchResults.find(m => m.id === movieId);
+        
+        if (movie) {
+            let favorites = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+            
+            // Check for duplicates and save
+            if (!favorites.some(fav => fav.id === movie.id)) {
+                favorites.push(movie);
+                localStorage.setItem('favoriteMovies', JSON.stringify(favorites));
+                alert(`${movie.title} has been added to your journal!`);
+            } else {
+                alert(`${movie.title} is already in your journal.`);
+            }
+        }
     }
 });
