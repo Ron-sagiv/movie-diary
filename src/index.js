@@ -118,7 +118,7 @@ function createSearchResult(movie) {
   const addFav = document.createElement('button');
   addFav.textContent = `Add to favourites`;
   addFav.className =
-    'btn-add mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black font-bold py-2 px-4 rounded transition-colors text-sm';
+    'btn-add mt-5 w-[180px] bg-[#EF8A17] hover:bg-[#d47a13] text-black font-bold py-2 px-4 rounded transition-colors text-sm';
   addFav.addEventListener('click', () => {
     addToFavorites(movie);
   });
