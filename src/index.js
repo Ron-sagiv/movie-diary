@@ -1,51 +1,151 @@
-// 1. Configuration Settings
-const API_KEY = '1843d373b23cb78c0bf4bcd1cabe152f'; 
+
+//const API_KEY = '1843d373b23cb78c0bf4bcd1cabe152f'; 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-// 2. DOM Element References
-const searchInput = document.getElementById('search-input');
-const searchButton = document.getElementById('search-button');
 const moviesGrid = document.getElementById('main-movies-grid');
+const input = document.querySelector('#search-field');
+const getMovieBtn = document.querySelector('#getMovieBtn');
+const dialogBox = document.querySelector('#searchDialog');
+const resultsContainer = document.querySelector('#resultsContainer');
+const closeDialog = document.querySelector('#closeDialogBtn');
 
-/**
- * FR009: Robust Error Handling
- * Fetches search results dynamically from the live TMDB API endpoints
- */
-async function searchMovies(query) {
-    try {
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)} `;
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error(`API error! Status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        // Always reset the layout container before rendering new search queries
-        moviesGrid.innerHTML = '';
-        
-        if (data.results && data.results.length > 0) {
-            data.results.forEach(movie => {
-                const movieCard = createMovieCard(movie);
-                moviesGrid.appendChild(movieCard);
-            });
+
+
+// From the Tmdb for fetching movies
+    const options = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWFkOTZkYjVhYzczMjE0YWJmYzdkYzRjNWM4MmUyOCIsIm5iZiI6MTc3OTQ1ODM4Ni4zNzQsInN1YiI6IjZhMTA2MTUyN2I4NDQ5MTdmZTU2M2M0MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.l42fW_AE4SKNtCy-Hefa-Z-n7ninsr6THrDU2XNNfP4'
+  }
+};
+
+// Function: Add Movie to Favorites
+  function addToFavorites(movie) {
+     let favorites = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+     if (!favorites.some(fav => fav.id === movie.id)) {
+            favorites.push(movie);
+            localStorage.setItem('favoriteMovies', JSON.stringify(favorites));
+            alert(`"${movie.title}" successfully added to your favourites!`);
         } else {
-            // FR008: Graceful Empty-Result Edge-Case Handling
-            moviesGrid.innerHTML = `<p class="col-span-full text-center text-gray-400 py-12">No movies found matching "${query}".</p>`;
+            alert(`"${movie.title}" already exists in your favourites.`);
         }
-    } catch (error) {
-        console.error("Critical failure during TMDB API operation:", error);
-        moviesGrid.innerHTML = `<p class="col-span-full text-center text-red-400 py-12">Unable to load movie results. Please check your network connection or API Key authorization.</p>`;
-    }
+  };
+
+
+// Event Listener for Search Form. Button + Enter Key press
+getMovieBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+     searchMovies();
+});
+
+input.addEventListener('keypress', (e) => {
+  if (event.key === 'Enter') {
+    searchMovies();
+  }
+});
+
+// Fetch movies from Tmdb
+async function searchMovies() {
+  const title = input.value.trim();
+  if (!title) return;
+
+  showLoading();
+
+  try {
+
+  const response = await fetch( `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}`, options)
+  
+  const data = await response.json();
+
+  displayResults(data.results);
 }
+catch(error) {
+  showError();
+  console.error(error);
+}
+}
+
+// Loading results
+function showLoading() {
+  resultsContainer.innerHTML = `Loading results...`;
+
+  dialogBox.showModal(); 
+}
+
+// Error loading results
+function showError() {
+  resultsContainer.innerHTML = `Error loading results`;
+}
+
+// Rendering movies from search result
+function displayResults(movies) {
+
+  if(!movies.length) {
+    resultsContainer.innerHTML = `Sorry, no movies found with that title.`;
+
+    return;
+  }
+
+  resultsContainer.innerHTML = '';
+
+  movies.forEach(movie => {
+    resultsContainer.appendChild(createSearchResult(movie));
+  });
+}
+
+// Create individual movie cards for search result
+
+function createSearchResult(movie) {
+
+
+const poster = movie.poster_path
+  ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+   : "https://placehold.co/100x150?text=No+Image";
+
+const resultsCard = document.createElement('div'); // Main container for search result
+resultsCard.className = 'flex gap-6';
+
+const resultsPoster = document.createElement('img'); // Movie Poster search result
+resultsPoster.src = poster;
+resultsPoster.className = 'w-30 rounded';
+
+const info = document.createElement('div');
+
+const title = document.createElement('h3');
+title.textContent = movie.title;
+title.className = 'text-xl font-semibold';
+
+const release = document.createElement('p');
+release.textContent = `Release date: ${movie.release_date || 'Unknown'}`;
+release.className = 'text-gray-500';
+
+const addFav = document.createElement('button');
+addFav.textContent = `Add to favourites`;
+addFav.className = 'btn-add mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black font-bold py-2 px-4 rounded transition-colors text-sm'
+addFav.addEventListener('click', () => {
+  addToFavorites(movie);
+});
+
+info.append(title, release, addFav);
+resultsCard.append(resultsPoster, info);
+
+return resultsCard;
+
+};
+
+closeDialog.addEventListener('click', () => {
+    dialogBox.close();
+});
+
+
 
 /**
  * Component Factory: Generates semantic HTML card fragments
  */
 function createMovieCard(movie) {
     const card = document.createElement('article');
-    card.className = "flex flex-col bg-white overflow-hidden rounded-lg shadow-md transition-transform duration-200 hover:-translate-y-1 text-black p-4";
+    card.className = "w-full bg-white overflow-hidden rounded-lg shadow-md transition-transform duration-200 hover:-translate-y-1 text-black p-4";
     
     // Construct TMDB image paths safely or fallback to a placeholder if no asset exists
     const posterUrl = movie.poster_path 
@@ -55,45 +155,20 @@ function createMovieCard(movie) {
     const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
 
     card.innerHTML = `
-        <div class="relative w-full aspect-[2/3] bg-gray-200 mb-4 rounded overflow-hidden">
-            <img src="${posterUrl}" alt="${movie.title}" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-        </div>
-        <div class="flex flex-col flex-grow">
-            <h3 class="text-lg font-bold text-gray-800 line-clamp-1 mb-1">${movie.title}</h3>
-            <p class="text-sm text-gray-500 mb-2">${releaseYear}</p>
-            <p class="text-sm text-gray-600 line-clamp-3 mb-4">${movie.overview || 'No overview descriptive data provided by TMDB.'}</p>
-            <button class="btn-add mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black font-bold py-2 px-4 rounded transition-colors duration-150 text-sm">
-                Add to Journal
+            <img src="${posterUrl}" alt="${movie.title}" class="w-full aspect-[2/3] object-cover rounded" />
+    
+            <h3 class="text-lg font-semibold mt-4">${movie.title}</h3>
+            <p class="text-sm text-gray-500">${releaseYear}</p>
+            <p class="text-sm text-gray-600 mt-2">${movie.overview || 'No description.'}</p>
+            <button class="btn-add mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black font-semibold text-sm">
+                Add to Favourites
             </button>
-        </div>
     `;
 
-    // LocalStorage State Modification Handler
     card.querySelector('.btn-add').addEventListener('click', () => {
-        let favorites = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+       addToFavorites(movie);
+    
         
-        // Prevent writing duplicate primary records into local storage arrays
-        if (!favorites.some(fav => fav.id === movie.id)) {
-            favorites.push(movie);
-            localStorage.setItem('favoriteMovies', JSON.stringify(favorites));
-            alert(`"${movie.title}" successfully committed to your Journal storage!`);
-        } else {
-            alert(`"${movie.title}" already resides within your existing Journal records.`);
-        }
     });
-
-    return card;
-}
-
-// 3. Global Interactive Event Listeners
-searchButton.addEventListener('click', () => {
-    const query = searchInput.value.trim();
-    if (query !== '') searchMovies(query);
-});
-
-searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        const query = searchInput.value.trim();
-        if (query !== '') searchMovies(query);
-    }
-});
+     return card;
+  };
