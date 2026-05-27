@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', () => {
 console.log("Journal page loaded.");
     loadJournalEntries();
@@ -21,7 +20,6 @@ const container = document.getElementById('journal-container');
 }
 document.addEventListener('DOMContentLoaded', loadJournalEntries);
         
-=======
 const moviesGrid = document.getElementById('movies-grid');
 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
@@ -72,4 +70,4 @@ function createMovieCard(movie) {
      return card;
   };
 
->>>>>>> f951259d354d8ced24ffc82edbad5741d5a9c334
+ f951259d354d8ced24ffc82edbad5741d5a9c334
