@@ -182,7 +182,7 @@ function createMovieCard(movie) {
             <h3 class="text-lg font-semibold mt-4">${movie.title}</h3>
             <p class="text-sm text-gray-500">${releaseYear}</p>
             <p class="text-sm text-gray-600 mt-2">${movie.overview || 'No description.'}</p>
-            <button class="btn-add mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black font-semibold text-sm">
+            <button class="btn-add py-2 mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black rounded font-semibold text-sm">
                 Add to Favourites
             </button>
     `;
