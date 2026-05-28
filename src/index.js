@@ -165,7 +165,7 @@ async function loadPopularMovies() {
 function createMovieCard(movie) {
   const card = document.createElement('article');
   card.className =
-    'w-full bg-white overflow-hidden rounded-lg shadow-md transition-transform duration-200 hover:-translate-y-1 text-black p-4';
+    'w-full bg-white overflow-hidden rounded-lg shadow-md transition-transform duration-200 hover:-translate-y-1 text-black p-4 flex flex-col h-full';
 
   // Construct TMDB image paths safely or fallback to a placeholder if no asset exists
   const posterUrl = movie.poster_path
@@ -181,7 +181,7 @@ function createMovieCard(movie) {
     
             <h3 class="text-lg font-semibold mt-4">${movie.title}</h3>
             <p class="text-sm text-gray-500">${releaseYear}</p>
-            <p class="text-sm text-gray-600 mt-2">${movie.overview || 'No description.'}</p>
+            <p class="text-sm text-gray-600 my-2">${movie.overview || 'No description.'}</p>
             <button class="btn-add py-2 mt-auto w-full bg-[#EF8A17] hover:bg-[#d47a13] text-black rounded font-semibold text-sm">
                 Add to Favourites
             </button>
