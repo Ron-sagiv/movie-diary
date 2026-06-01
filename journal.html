@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Favorites</title>
+      <script src="
+https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4
+"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-[rgba(0,0,0,0.94)] box-border m-0 p-0 font-['Inter'] bg-black text-white">
+  <header class="w-full h-[85px] bg-[rgba(92,92,92,0.39)] flex">
+    <img src="../src/assets/logo-75smaller.png" alt="logo" class="h-[100px] w-auto ml-4" />
+
+    <nav class="w-full flex justify-between items-center list-none mr-8">
+      <ul class="w-full flex justify-end gap-2">
+  <li><a href="../index.html" class="hover:text-[#EF8A17]">Home</a></li>
+  <li><a href="./journal.html" class="hover:text-[#EF8A17]">Favorites</a></li>
+</ul>
+    </nav>
+  </header>
+  <main class="min-h-screen py-6">
+    <h1 class="text-[#EF8A17] text-center text-3xl font-bold mb-6">My Favorites</h1>
+    <div id="movies-grid" class="grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-6 w-full px-4">
+      </div>
+  </main>
+  <footer class="bg-[rgba(92,92,92,0.39)] w-full min-h-56 flex justify-between items-start px-10 py-6">
+    <!-- LEFT SIDE -->
+    <div id="logo-footer" class="flex flex-col items-center">
+      <figure>
+        <img src="./src/assets/logo-75smaller.png" alt="logo" class="h-[100px] w-auto" />
+      </figure>
+
+      <p class="mt-2 text-center">
+        Movie Diary
+        <span class="font-bold text-[#EF8A17]">©2026</span>
+      </p>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div id="footer-social" class="flex flex-col items-center">
+      <h4 class="font-bold text-[#EF8A17] mb-3">Follow us on:</h4>
+
+      <ul class="flex gap-6">
+        <li>
+          <a class="flex items-center gap-2 hover:text-[#EF8A17]" href="https://www.instagram.com/" target="_blank">
+            <img src="./src/assets/icons8-instagram.svg" alt="instagram" class="h-5 w-5" />
+            Instagram
+          </a>
+        </li>
+
+        <li>
+          <a class="flex items-center gap-2 hover:text-[#EF8A17]" href="https://www.facebook.com/" target="_blank">
+            <img src="./src/assets/icons8-facebook.svg" alt="facebook" class="h-5 w-5" />
+            Facebook
+          </a>
+        </li>
+
+        <li>
+          <a class="flex items-center gap-2 hover:text-[#EF8A17]" href="https://www.x.com" target="_blank">
+            <img src="./src/assets/icons8-x-50.png" alt="twitterx" class="h-5 w-5" />
+            Twitter
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+<script type="module" src="./src/journal.js"></script>
+</body>
+
+</html>
